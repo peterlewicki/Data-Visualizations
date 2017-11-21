@@ -1,5 +1,8 @@
+window.onload = function() {
+
+
 var co2 = [
-[1959, 315.97],
+  [1959, 315.97],
   [1960, 316.91],
   [1961, 317.64],
   [1962, 318.45],
@@ -57,88 +60,95 @@ var co2 = [
   [2014, 398.65],
   [2015, 400.83],
   [2016, 404.21],
-  ];
+];
 
-  /* Global Land and Ocean Temperature Anomalies, January-December
+/* Global Land and Ocean Temperature Anomalies, January-December
 Units: Degrees Celsius
 Base Period: 1901-2000
 Missing: -999.0000//
 Year,Value  */
 
 var temp = [
-[1959, 0.06],
-[1960, 0.02],
-[1961, 0.08],
-[1962, 0.09],
-[1963, 0.11],
-[1964, -0.15],
-[1965, -0.08],
-[1966, -0.02],
-[1967, -0.01],
-[1968, -0.03],
-[1969, 0.09],
-[1970, 0.04],
-[1971, -0.08],
-[1972, 0.03],
-[1973, 0.16],
-[1974, -0.07],
-[1975, 0.00],
-[1976, -0.08],
-[1977, 0.20],
-[1978, 0.11],
-[1979, 0.23],
-[1980, 0.26],
-[1981, 0.30],
-[1982, 0.18],
-[1983, 0.34],
-[1984, 0.15],
-[1985, 0.13],
-[1986, 0.23],
-[1987, 0.37],
-[1988, 0.37],
-[1989, 0.29],
-[1990, 0.43],
-[1991, 0.40],
-[1992, 0.25],
-[1993, 0.28],
-[1994, 0.34],
-[1995, 0.45],
-[1996, 0.32],
-[1997, 0.51],
-[1998, 0.63],
-[1999, 0.44],
-[2000, 0.43],
-[2001, 0.55],
-[2002, 0.60],
-[2003, 0.61],
-[2004, 0.58],
-[2005, 0.66],
-[2006, 0.62],
-[2007, 0.61],
-[2008, 0.54],
-[2009, 0.64],
-[2010, 0.70],
-[2011, 0.58],
-[2012, 0.63],
-[2013, 0.67],
-[2014, 0.75],
-[2015, 0.91],
-[2016, 0.95],
-     ];
+  [1959, 0.06],
+  [1960, 0.02],
+  [1961, 0.08],
+  [1962, 0.09],
+  [1963, 0.11],
+  [1964, -0.15],
+  [1965, -0.08],
+  [1966, -0.02],
+  [1967, -0.01],
+  [1968, -0.03],
+  [1969, 0.09],
+  [1970, 0.04],
+  [1971, -0.08],
+  [1972, 0.03],
+  [1973, 0.16],
+  [1974, -0.07],
+  [1975, 0.00],
+  [1976, -0.08],
+  [1977, 0.20],
+  [1978, 0.11],
+  [1979, 0.23],
+  [1980, 0.26],
+  [1981, 0.30],
+  [1982, 0.18],
+  [1983, 0.34],
+  [1984, 0.15],
+  [1985, 0.13],
+  [1986, 0.23],
+  [1987, 0.37],
+  [1988, 0.37],
+  [1989, 0.29],
+  [1990, 0.43],
+  [1991, 0.40],
+  [1992, 0.25],
+  [1993, 0.28],
+  [1994, 0.34],
+  [1995, 0.45],
+  [1996, 0.32],
+  [1997, 0.51],
+  [1998, 0.63],
+  [1999, 0.44],
+  [2000, 0.43],
+  [2001, 0.55],
+  [2002, 0.60],
+  [2003, 0.61],
+  [2004, 0.58],
+  [2005, 0.66],
+  [2006, 0.62],
+  [2007, 0.61],
+  [2008, 0.54],
+  [2009, 0.64],
+  [2010, 0.70],
+  [2011, 0.58],
+  [2012, 0.63],
+  [2013, 0.67],
+  [2014, 0.75],
+  [2015, 0.91],
+  [2016, 0.95],
+];
+var zero = [];
+for (var yr=1959; yr < 2016; yr++) {zero.push([yr, 0]);}; //this adds a "dummy" set of data to create a baseline for global temperatures
 
-/* parameters below are a reference to the HTML element in which to place the data, and the data itself. The lines property of the data object indicates we want a line chart */
+Flotr.draw(document.getElementById("chart"),
+[
+  {data: co2, label: "CO<sub>2</sub> Concentration (ppm)", lines: {show: true}}, // this sets the co2 line graph to the chart div in the html file
+{data: temp, label: "Yearly Temperature Difference (&#8451)",lines: {show: true}, yaxis: 2},  //sets the temp line graph to chart div, "yaxis" tells flotr to create 2nd y scale for chart
+{data: zero, label: "20<sup>th</th>-Century Baseline Temperature", lines: {show: true, lineWidth: 1}, shadowSize: 0, color: "#545454", yaxis: 2}, ],
+
+{
+title: "Global Temperature and CO<sub>2</sub> Concentration (NOAA Data)",
+grid: {horizontalLines: false, verticalLines: false}, //this removes the grid from our chart for improved readability
+  yaxis2: {min: -0.15, max: 0.69, tickFormatter: function(val) {return val+"&#8451";}}, //these specify the min and max values for the vertical axes for improved readability
+  yaxis: {min: 300, max: 400}
+
+}
 
 
-window.onload = function() {
-  Flotr.draw(
-    document.getElementById("chart"),
-    [
-      {data: co2, lines: {show: true} },
-      /* yaxis tells FLOTR to use a different y scale for the temperature data */
-{data: temp, lines: {show: true}, yaxis: 2}
+);
 
-    ]
-  );
+
 
 
 };
